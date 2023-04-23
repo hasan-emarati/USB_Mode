@@ -21,47 +21,43 @@
 #     print(f"{disk.DeviceID}{disk.VolumeName}, Free Space: {free_space} GB, Size: {size} GB, File System: {disk.FileSystem},"
 #           f"serial Number: {disk.VolumeSerialNumber}, {read_only}")
 
-import win32file
-import win32api
-import win32con
 
-# ورودی کاربر
-drive_letter = input("Enter the drive letter (e.g., D:): ")
 
-# بررسی وضعیت دستگاه
-try:
-    # باز کردن فایل به صورت read-only
-    file_handle = win32file.CreateFile(drive_letter, win32file.GENERIC_READ, win32file.FILE_SHARE_READ, None, win32file.OPEN_EXISTING, win32file.FILE_ATTRIBUTE_NORMAL, None)
 
-    # دریافت اطلاعات ویژگی‌ها
-    attributes = win32file.GetFileAttributes(drive_letter)
+# class DiskInfo:
+#     def refresh_disk_info(self):
+#         c = wmi.WMI()
+#         disk_info = ""
+#         for disk in c.Win32_LogicalDisk():
+#             free_space = round(int(disk.FreeSpace)/(1024**3), 2) if disk.FreeSpace is not None else "-"
+#             size = round(int(disk.Size)/(1024**3), 2) if disk.Size is not None else "-"
+#             disk_info += f"\n{disk.DeviceID}{disk.VolumeName} , Free Space: {free_space} GB , Size: {size} GB , File System: {disk.FileSystem} , serial Number: {disk.VolumeSerialNumber} \n"
+#         return disk_info
+    
 
-    # چک کردن وضعیت read-only
-    if attributes & win32con.FILE_ATTRIBUTE_READONLY:
-        print(f"The {drive_letter} drive is in read-only mode.")
-    else:
-        print(f"The {drive_letter} drive is not in read-only mode.")
+import win32security
+import ntsecuritycon as con
+import getpass
 
-    # چک کردن وضعیت دیگر ویژگی‌ها
-    if attributes & win32con.FILE_ATTRIBUTE_DIRECTORY:
-        print(f"The {drive_letter} drive is a directory.")
-    else:
-        print(f"The {drive_letter} drive is not a directory.")
-    if attributes & win32con.FILE_ATTRIBUTE_ARCHIVE:
-        print(f"The {drive_letter} drive is an archive.")
-    else:
-        print(f"The {drive_letter} drive is not an archive.")
-    if attributes & win32con.FILE_ATTRIBUTE_HIDDEN:
-        print(f"The {drive_letter} drive is hidden.")
-    else:
-        print(f"The {drive_letter} drive is not hidden.")
-    if attributes & win32con.FILE_ATTRIBUTE_SYSTEM:
-        print(f"The {drive_letter} drive is a system drive.")
-    else:
-        print(f"The {drive_letter} drive is not a system drive.")
+file_name = r'H:\\' #THE USB
 
-    # بستن فایل
-    win32file.CloseHandle(file_handle)
 
-except Exception as e:
-    print(f"Error: {e}")
+sd = win32security.GetFileSecurity(file_name, win32security.DACL_SECURITY_INFORMATION)
+dacl = sd.GetSecurityDescriptorDacl()
+
+
+ace_count = dacl.GetAceCount()
+print('Ace count:', ace_count)
+
+for i in range(0, ace_count):
+    dacl.DeleteAce(0)
+
+
+userx, domain, type = win32security.LookupAccountName("", "my.user")
+
+
+dacl.AddAccessAllowedAceEx(win32security.ACL_REVISION, 3, 1179785, userx) # Read only
+
+
+sd.SetSecurityDescriptorDacl(1, dacl, 0)   # may not be necessary
+win32security.SetFileSecurity(file_name, win32security.DACL_SECURITY_INFORMATION, sd)
