@@ -23,11 +23,12 @@ class DiskUI:
         self.Write = Disk()
 
         # Disk info label
-        self.disk_info_label = ttk.Label(self.frame, font=('Comic Sans MS', 15), anchor=tk.W, justify=tk.RIGHT)
-        self.disk_info_label.pack(fill=tk.BOTH, expand=True)
+        # self.disk_info_label = ttk.Label(self.frame, font=('Comic Sans MS', 15), anchor=tk.W, justify=tk.RIGHT)
+        # self.disk_info_label.pack(fill=tk.BOTH, expand=True)
 
         # actions Button
-        Radiobutton(self.frame, text=f'{self.disk_info.refresh_disk_info()}',font=('Comic Sans MS', 15), variable=IntVar(), value=1 ,).pack(anchor=W)
+        self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,)
+        self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
 
         # Update button
         self.update_button = ttk.Button(self.frame, text="Update", command=self.refresh_disk_info)
