@@ -1,3 +1,31 @@
+from tkinter import *
+from tkinter import ttk
+
+#Create an instance of tkinter frame
+win = Tk()
+
+#Set the geometry of tkinter frame
+win.geometry("750x270")
+
+#Create an instance of Style Object
+style = ttk.Style()
+
+#Create ttk buttons
+small_button = ttk.Button(win, text="small button", style="small.TButton")
+small_button.pack(pady=20)
+
+big_button = ttk.Button(win, text="big button", style="big.TButton")
+big_button.pack()
+
+#Configure the properties of the Buttons
+style.configure('big.TButton', font=(None, 20), foreground="blue4")
+style.configure('small.TButton', font=(None, 7))
+
+win.mainloop()
+
+
+
+
 # import tkinter as tk
 # from tkinter import ttk
 # from ttkthemes import ThemedStyle

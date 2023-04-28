@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import font
 from tkinter import ttk
 from ttkthemes import ThemedStyle
 from USB import Disk
@@ -27,11 +28,11 @@ class DiskUI:
         # self.disk_info_label.pack(fill=tk.BOTH, expand=True)
 
         # actions Button
-        self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,)
+        self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='')
         self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
 
         # Update button
-        self.update_button = ttk.Button(self.frame, text="Update", command=self.refresh_disk_info)
+        self.update_button = ttk.Button(self.frame, text="Update",state='', command=self.refresh_disk_info)
         self.update_button.pack(side=tk.LEFT, padx=5, pady=10 , )
 
         # Only Read button
@@ -63,7 +64,7 @@ class DiskUI:
 
     def refresh_disk_info(self):
         disk_info = self.disk_info.refresh_disk_info()
-        self.disk_info_label.config(text=disk_info)
+        self.disk_info_label.config(text=f'   {disk_info}')
 
     def Eject_Disk(self):
         Eject = self.Eject.Eject_Disk()
