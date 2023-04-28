@@ -1,5 +1,6 @@
 # import psutil
 import wmi
+# from UI import DiskUI
 
 class Disk:
     def refresh_disk_info(self):
@@ -9,9 +10,9 @@ class Disk:
             if "Removable" in disk.Description:
                 free_space = round(int(disk.FreeSpace)/(1024**3), 2) if disk.FreeSpace is not None else "-"
                 size = round(int(disk.Size)/(1024**3), 2) if disk.Size is not None else "-"
-                disk_info += f'{disk.DeviceID}{disk.VolumeName},Free Space:{free_space}GB,Size:{size}GB,File System:{disk.FileSystem},VolumeDirty:{disk.VolumeDirty},serial Number:{disk.VolumeSerialNumber}\n'
+                disk_info += f'{disk.DeviceID}{disk.VolumeName},Free Space:{free_space}GB,Size:{size}GB,File System:{disk.FileSystem},VolumeDirty:{disk.VolumeDirty},serial Number:{disk.VolumeSerialNumber}'
+
         print("Updating Data")
-        
         return disk_info
     
     def Eject_Disk(self):

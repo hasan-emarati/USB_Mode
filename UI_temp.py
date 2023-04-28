@@ -5,7 +5,31 @@ import psutil
 import wmi
 
 
+import requests
+import tkinter as tk
 
+
+#GUI Config
+gui = tk.Tk()
+gui.geometry('970x569')
+gui.title("Zombs Royale Tools v1")
+gui.resizable(False, False)
+
+#Code below is the one i used to do this[![enter image description here][1]][1]
+gui.overrideredirect(True) 
+
+
+#Background-image
+bgImage = tk.PhotoImage(file="width.png")
+background_label = tk.Label(gui, image = bgImage)
+background_label.place(x=0,y=0,relwidth=1, relheight=1)
+
+#GUI Widgets#
+
+#Exit Button
+exit_image = tk.PhotoImage(file="close.gif")
+exit_button = tk.Button(gui, image=exit_image, borderwidth=0, command=gui.destroy)
+exit_button.place(rely=0.01, relx=0.01)
 
 
 
