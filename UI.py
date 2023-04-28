@@ -12,7 +12,7 @@ class DiskUI:
         self.style.set_theme("equilux")
         self.frame = ttk.Frame(self.root, padding=10)
         self.frame.pack(fill=tk.BOTH, expand=True)
-        self.root.minsize(800,150)
+        self.root.minsize(1000,150)
         self.root.maxsize(800,500)
         
         # Disk info label
@@ -24,11 +24,11 @@ class DiskUI:
         self.update_button.pack(side=tk.LEFT, padx=5, pady=10 , )
 
         # Only Read button
-        self.update_button = ttk.Button(self.frame, text="Only Read", command=self.refresh_disk_info)
+        self.update_button = ttk.Button(self.frame, text="Only Read", command=self.Read_Only)
         self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
 
         # Read/Write button
-        self.update_button = ttk.Button(self.frame, text="Read/Write", command=self.refresh_disk_info)
+        self.update_button = ttk.Button(self.frame, text="Read/Write", command=self.Read_Write)
         self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
 
         # Format Disk button
@@ -46,12 +46,15 @@ class DiskUI:
         # Create an instance of Disk class
         self.disk_info = Disk()
         self.Eject = Disk()
-        self.Format = Disk()
+        self.Format = Disk() 
+        self.Read = Disk()
+        self.Write = Disk()
+
 
         # Refresh disk info on startup
         self.refresh_disk_info()
-        self.Eject_Disk()
-        self.Format_Disk()
+        # self.Eject_Disk()
+        # self.Format_Disk()
 
         self.root.mainloop()
 
@@ -64,6 +67,12 @@ class DiskUI:
     
     def Format_Disk(self):
         Format = self.Format.Format_Disk()
+
+    def Read_Only(self):
+        Read = self.Read.Read_Only()
+
+    def Read_Write(self):
+        Write = self.Write.Read_Write()
 
 if __name__ == '__main__':
     DiskUI()
