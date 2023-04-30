@@ -11,11 +11,12 @@ class DiskUI:
         self.root.title("Disk")
         self.style = ThemedStyle(self.root)
         self.style.set_theme("equilux")
+        self.style = ttk.Style(self.style)
         self.frame = ttk.Frame(self.root, padding=10)
         self.frame.pack(fill=tk.BOTH, expand=True)
-        self.root.minsize(1050,150)
+        self.root.minsize(1050,80)
         self.root.maxsize(800,500)
-
+    
         # Create an instance of Disk class
         self.disk_info = Disk()
         self.Eject = Disk()
@@ -28,8 +29,13 @@ class DiskUI:
         # self.disk_info_label.pack(fill=tk.BOTH, expand=True)
 
         # actions Button
-        self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='')
-        self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
+        count = len(self.disk_info.refresh_disk_info())
+        counter = 0
+        while counter < count : 
+            counter = counter + 1
+            self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='TLabel',)
+            self.style.configure('TLabel', font=('Helvetica', 14))
+            self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
 
         # Update button
         self.update_button = ttk.Button(self.frame, text="Update",state='', command=self.refresh_disk_info)
@@ -56,7 +62,7 @@ class DiskUI:
         self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
 
         # Refresh disk info on startup
-        self.refresh_disk_info()
+        # self.refresh_disk_info()
         # self.Eject_Disk()
         # self.Format_Disk()
 
@@ -64,8 +70,17 @@ class DiskUI:
 
     def refresh_disk_info(self):
         disk_info = self.disk_info.refresh_disk_info()
-        self.disk_info_label.config(text=f'   {disk_info}')
-
+        for List_Disk in disk_info:
+            # print(List_Disk)
+            count = len(List_Disk)
+            # print ('len : ' , count)
+            counter = 0
+            while counter < count:
+                counter = counter + 1
+                # print(len(disk_info))
+                # print (counter , List_Disk)
+                self.disk_info_label.config(text=f'   {str(List_Disk)}')
+        
     def Eject_Disk(self):
         Eject = self.Eject.Eject_Disk()
     
