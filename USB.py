@@ -10,8 +10,8 @@ class Disk:
             # if "Removable" in disk.Description:
             free_space = round(int(disk.FreeSpace)/(1024**3), 2) if disk.FreeSpace is not None else "-"
             size = round(int(disk.Size)/(1024**3), 2) if disk.Size is not None else "-"
-            disk_info += [f'{disk.DeviceID}:{disk.VolumeName}Free Space:{free_space}GBSize:{size}GB File System:{disk.FileSystem} VolumeDirty:{disk.VolumeDirty} serial Number:{disk.VolumeSerialNumber}']
-            print (len(disk_info) , '/n' , disk_info)
+            disk_info += [f'{disk.DeviceID}{disk.VolumeName}Free Space:{free_space}GBSize:{size}GB File System:{disk.FileSystem} VolumeDirty:{disk.VolumeDirty} serial Number:{disk.VolumeSerialNumber}']
+            # print (len(disk_info) , '/n' , disk_info)
 
         print("Updating Data")
         return disk_info

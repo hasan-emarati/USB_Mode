@@ -57,99 +57,19 @@ import wmi
 
 
 
-#Imports tkinter to create a window.
 from tkinter import *
-root=Tk()
-root.title("BMI Calculator By")
-  
-#Creates Frames for items to go in.
-topFrame=Frame(root)
-topFrame.pack()
-bottomFrame=Frame(root)
-bottomFrame.pack(side=BOTTOM)
-  
-#Creates labels to display how the app works.
-theLabel = Label(topFrame, text="Body Mass Index also called BMI is used in the health industry")
-theLabel.pack()
-theLabel2 = Label(topFrame, text="to measure how over or underweight you are.")
-theLabel2.pack()
-theLabel3 = Label(topFrame, text="An ideal BMI ranges between 18.5 and 24.9.")
-theLabel3.pack()
-theLabel4 = Label(topFrame, text="bmi = weight /(height^2)*703")
-theLabel4.pack()
-theLabel5 = Label(topFrame, text="This is an example of someone who used our app.")
-labelExamplename = Label(topFrame, text="Name = Boi")
-labelExamplename.pack()
-labelExampleheight = Label(topFrame, text="Height(in) = 69")
-labelExampleheight.pack()
-labelExampleweight = Label(topFrame, text="Weight(lb) = 160")
-labelExampleweight.pack()
-  
-#Creates and displays variables to further display how it works.
-name = "Boi"
-height_in = 69
-weight_lb = 160
-bmi = weight_lb / (height_in ** 2)*703
-labelExamplelabel = Label(topFrame, text="Boi's BMI is:")
-labelExamplelabel.pack()
-labelExample = Label(topFrame, text=bmi)
-labelExample.pack()
-  
-#Entry Boxes and Labels for Height
-LabelWhatisyourHeight = Label(topFrame, text="What is your height in inches?")
-LabelWhatisyourHeight.pack()
-Height = StringVar()
-EntryBoxHeight = Entry(topFrame, textvariable=Height)
-EntryBoxHeight.pack()
-LabelWhatisyourHeightLabel = Label(topFrame, text="inches")
-LabelWhatisyourHeightLabel.pack()
-  
-  
-#Entry Boxes and Labels for Weight
-LabelWhatisYourWeight = Label(topFrame, text="What is you Weight in pounds?")
-LabelWhatisYourWeight.pack()
-Weight = StringVar()
-EntryBoxWeight = Entry(topFrame, textvariable=Weight)
-EntryBoxWeight.pack()
-LabelWhatisYourWeightLabel = Label(topFrame, text="pounds")
-LabelWhatisYourWeightLabel.pack()
-  
-#Creates A Space
-LabelNothing = Label(topFrame, text = "")
-  
-  
-#Calculation Button (Figure out how to link this to a function
- 
-bmi = StringVar()
-bmi.set("")
-bmi2 = StringVar()
-bmi2.set("")
- 
-def calculate():
-    pounds = float(Weight.get())
-    inches = float(Height.get())
-    # labelYourBMI = Label(topFrame, text="Your BMI is")
-    bmi.set("Your BMI is")
-    labelYourBMI = Label(topFrame, textvariable=bmi)
-    labelYourBMI.pack()
-    bmi2.set((pounds) / (inches)**2*703)
-    # bmitwo = (pounds) / (inches)**2*703
-    labelYourBMI2 = Label(topFrame, textvariable=bmi2)
-    labelYourBMI2.pack()
-    return
-  
-ButtonCalculate = Button(topFrame, text="Calculate", command=calculate)
-ButtonCalculate.pack()
-  
-#make sure to define the reset button
-def reset():
-    # labelYourBMI2 = Button(topFrame, text="")
-    bmi.set("")
-    bmi2.set("")
-    Height.set('')
-    Weight.set('')
-    return
-  
-ButtonReset = Button(topFrame, text="Reset", command=reset)
-ButtonReset.pack()
+from tkinter import ttk
+
+root = Tk()
+
+s = ttk.Style()
+
+s.configure('Red.TLabelframe.Label', font=('courier', 15, 'bold'))
+s.configure('Red.TLabelframe.Label', foreground ='red')
+s.configure('Red.TLabelframe.Label', background='blue')
+lf = ttk.LabelFrame(root, text = "Test", style = "Red.TLabelframe")
+lf.pack( anchor = "w", ipadx = 10, ipady = 5, padx = 10,
+                  pady = 0, side = "top")
+Frame(lf, width=100, height=100, bg='black').pack()
+print(s.lookup('Red.TLabelframe.Label', 'font'))
 root.mainloop()

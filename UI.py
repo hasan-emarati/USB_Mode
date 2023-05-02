@@ -33,9 +33,13 @@ class DiskUI:
         counter = 0
         while counter < count : 
             counter = counter + 1
-            self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='TLabel',)
-            self.style.configure('TLabel', font=('Helvetica', 14))
+            # self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='TLabel',)
+            # self.style.configure('TLabel', font=('Helvetica', 14))
+            # self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
+            self.style.configure('TLabel', font=('Comic Sans MS', 14))
+            self.disk_info_label = ttk.Checkbutton(self.frame, variable=IntVar())
             self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
+            
 
         # Update button
         self.update_button = ttk.Button(self.frame, text="Update",state='', command=self.refresh_disk_info)
@@ -83,7 +87,7 @@ class DiskUI:
                 counter = counter + 1
                 # print(len(disk_info))
                 # print (counter , List_Disk)
-                self.disk_info_label.config(text=f'   {str(List_Disk)}')
+                self.disk_info_label.config(text=f'{str(List_Disk)}')
         
     def Eject_Disk(self):
         Eject = self.Eject.Eject_Disk()
