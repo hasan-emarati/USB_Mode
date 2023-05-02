@@ -7,11 +7,11 @@ class Disk:
         c = wmi.WMI()
         disk_info = []
         for disk in c.Win32_LogicalDisk():
-            if "Removable" in disk.Description:
-                free_space = round(int(disk.FreeSpace)/(1024**3), 2) if disk.FreeSpace is not None else "-"
-                size = round(int(disk.Size)/(1024**3), 2) if disk.Size is not None else "-"
-                disk_info += [f'{disk.DeviceID}:{disk.VolumeName},Free Space:{free_space}GBSize:{size}GB File System:{disk.FileSystem} VolumeDirty:{disk.VolumeDirty} serial Number:{disk.VolumeSerialNumber},']
-                # print (len(disk_info))
+            # if "Removable" in disk.Description:
+            free_space = round(int(disk.FreeSpace)/(1024**3), 2) if disk.FreeSpace is not None else "-"
+            size = round(int(disk.Size)/(1024**3), 2) if disk.Size is not None else "-"
+            disk_info += [f'{disk.DeviceID}:{disk.VolumeName}Free Space:{free_space}GBSize:{size}GB File System:{disk.FileSystem} VolumeDirty:{disk.VolumeDirty} serial Number:{disk.VolumeSerialNumber}']
+            print (len(disk_info) , '/n' , disk_info)
 
         print("Updating Data")
         return disk_info

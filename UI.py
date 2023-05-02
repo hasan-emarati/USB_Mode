@@ -61,6 +61,10 @@ class DiskUI:
         self.exit_button = ttk.Button(self.frame, text="Exit", command=self.root.destroy)
         self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
 
+        # Reset button
+        self.exit_button = ttk.Button(self.frame, text="Reset", command=self.Reset)
+        self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
+
         # Refresh disk info on startup
         # self.refresh_disk_info()
         # self.Eject_Disk()
@@ -92,6 +96,11 @@ class DiskUI:
 
     def Read_Write(self):
         Write = self.Write.Read_Write()
+    
+    def Reset(self):
+        self.root.destroy()
+        DiskUI()
+        print("app is restarted")
 
 if __name__ == '__main__':
     DiskUI()
