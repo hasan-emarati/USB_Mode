@@ -1,75 +1,76 @@
 # import tkinter as tk
-# from tkinter import ttk
-# from ttkthemes import ThemedStyle
-# from USB import Disk
-# from tkinter import *
-import wmi
 
-# class DiskUI:
-#     def __init__(self):
-#         self.root = tk.Tk()
-#         self.root.title("Disk")
-#         self.style = ThemedStyle(self.root)
-#         self.style.set_theme("equilux")
-#         self.frame = ttk.Frame(self.root, padding=10)
-#         self.frame.pack(fill=tk.BOTH, expand=True)
-#         self.root.minsize(1000,150)
-#         self.root.maxsize(800,500)
-        
-#         self.disk_info_label = ttk.Label(self.frame, font=('Arial', 12), anchor=tk.W, justify=tk.LEFT)
-#         self.disk_info_label.pack(fill=tk.BOTH, expand=True)
+# class GUI:
+#     def init(self, num_buttons):
+#         self.num_buttons = num_buttons
+#         self.window = tk.Tk()
+#         self.window.title("صفحه با دکمه ها")
 
-#         self.update_button = ttk.Button(self.frame, text="Update", command=self.refresh_disk_info)
-#         self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
+#         # ایجاد دکمه‌ها
+#         self.buttons = []
+#         for i in range(self.num_buttons):
+#             button = tk.Button(self.window, text=f"دکمه {i+1}", command=lambda i=i: self.button_click(i))
+#             button.pack()
+#             self.buttons.append(button)
 
-#         self.only_read_button = ttk.Button(self.frame, text="Only Read", command=self.refresh_disk_info)
-#         self.only_read_button.pack(side=tk.LEFT, padx=5, pady=10)
+#         self.window.mainloop()
 
-#         self.read_write_button = ttk.Button(self.frame, text="Read/Write", command=self.refresh_disk_info)
-#         self.read_write_button.pack(side=tk.LEFT, padx=5, pady=10)
+#     def button_click(self, index):
+#         print(f"دکمه {index + 1} فشرده شد")
 
-#         self.format_button = ttk.Button(self.frame, text="Format", command=self.format_disk)
-#         self.format_button.pack(side=tk.LEFT, padx=5, pady=10)
+# GUI()
+# # [2:14 PM]
+# import tkinter as tk
 
-#         self.eject_button = ttk.Button(self.frame, text="Eject Disk", command=self.eject_disk)
-#         self.eject_button.pack(side=tk.LEFT, padx=5, pady=10)
+# class GUI:
+#     def init(self, num_buttons):
+#         self.num_buttons = num_buttons
+#         self.window = tk.Tk()
+#         self.window.title("صفحه با دکمه ها")
 
-#         self.exit_button = ttk.Button(self.frame, text="Exit", command=self.root.destroy)
-#         self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
+#         # تعداد ستون‌ها برای grid
+#         self.num_columns = 5
 
-#         self.disk = Disk()
-#         self.refresh_disk_info()
+#         # ایجاد دکمه‌ها
+#         self.buttons = []
+#         for i in range(self.num_buttons):
+#             row = i // self.num_columns # شماره ردیف
+#             column = i % self.num_columns # شماره ستون
+#             button = tk.Button(self.window, text=f"دکمه {i+1}", command=lambda i=i: self.button_click(i))
+#             button.grid(row=row, column=column)
+#             self.buttons.append(button)
 
-#         self.root.mainloop()
+#         self.window.mainloop()
 
-#     def refresh_disk_info(self):
-#         disk_info = self.disk.refresh_disk_info()
-#         self.disk_info_label.config(text=disk_info)
-
-#     def eject_disk(self):
-#         self.disk.eject_disk()
-
-#     def format_disk(self):
-#         self.disk.format_disk()
+#     def button_click(self, index):
+#         print(f"دکمه {index + 1} فشرده شد")
 
 # if __name__ == '__main__':
-#     DiskUI()
-
-
-
-from tkinter import *
-from tkinter import ttk
-
-root = Tk()
-
-s = ttk.Style()
-
-s.configure('Red.TLabelframe.Label', font=('courier', 15, 'bold'))
-s.configure('Red.TLabelframe.Label', foreground ='red')
-s.configure('Red.TLabelframe.Label', background='blue')
-lf = ttk.LabelFrame(root, text = "Test", style = "Red.TLabelframe")
-lf.pack( anchor = "w", ipadx = 10, ipady = 5, padx = 10,
-                  pady = 0, side = "top")
-Frame(lf, width=100, height=100, bg='black').pack()
-print(s.lookup('Red.TLabelframe.Label', 'font'))
-root.mainloop()
+#     GUI()
+# [2:16 PM]
+import tkinter as tk
+import psutil
+def init(self, num_buttons):
+    self.num_buttons = num_buttons
+    self.window = tk.Tk()
+    self.window.title("صفحه با دکمه ها")
+    # تعداد ستون‌ها برای grid
+    self.num_columns = 5
+    # ایجاد دکمه‌ها
+    self.buttons = []
+    drives = psutil.disk_partitions()
+    for i in range(self.num_buttons):
+        row = i // self.num_columns # شماره ردیف
+        column = i % self.num_columns # شماره ستون
+        if i < len(drives):
+            drive = drives[i].device
+        else:
+            drive = ""
+        button = tk.Button(self.window, text=drive, command=lambda i=i: self.button_click(i))
+        button.grid(row=row, column=column)
+        self.buttons.append(button)
+    self.window.mainloop()
+def button_click(self, index):
+    print(f"دکمه {index + 1} فشرده شد")
+# if __name__ == '__main__':
+#     GUI()
