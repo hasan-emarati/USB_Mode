@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import font
 from tkinter import ttk
 from ttkthemes import ThemedStyle
+import wmi
 from USB import Disk
-from tkinter import *
+
 
 class DiskUI:
     def __init__(self):
@@ -11,101 +11,80 @@ class DiskUI:
         self.root.title("Disk")
         self.style = ThemedStyle(self.root)
         self.style.set_theme("equilux")
-        self.style = ttk.Style(self.style)
         self.frame = ttk.Frame(self.root, padding=10)
         self.frame.pack(fill=tk.BOTH, expand=True)
-        self.root.minsize(1050,80)
-        self.root.maxsize(800,500)
-    
+        self.root.minsize(400, 200)
+        self.root.maxsize(800, 500)
+
         # Create an instance of Disk class
         self.disk_info = Disk()
-        self.Eject = Disk()
-        self.Format = Disk() 
-        self.Read = Disk()
-        self.Write = Disk()
 
-        # Disk info label
-        # self.disk_info_label = ttk.Label(self.frame, font=('Comic Sans MS', 15), anchor=tk.W, justify=tk.RIGHT)
-        # self.disk_info_label.pack(fill=tk.BOTH, expand=True)
+        # Disk info checkboxes
+        self.disk_checkboxes_frame = ttk.Frame(self.frame)
+        self.disk_checkboxes_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.disk_checkboxes = []
+        self.refresh()
 
-        # actions Button
-        count = len(self.disk_info.refresh_disk_info())
-        counter = 0
-        while counter < count : 
-            counter = counter + 1
-            # self.disk_info_label = ttk.Radiobutton(self.frame, variable=IntVar(), value=1 ,state='TLabel',)
-            # self.style.configure('TLabel', font=('Helvetica', 14))
-            # self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
-            self.style.configure('TLabel', font=('Comic Sans MS', 14))
-            self.disk_info_label = ttk.Checkbutton(self.frame, variable=IntVar())
-            self.disk_info_label.pack(anchor=W,fill=tk.BOTH, expand=True)
-            
+        # Button frame
+        self.button_frame = ttk.Frame(self.frame)
+        self.button_frame.pack(side=tk.LEFT)
 
-        # Update button
-        self.update_button = ttk.Button(self.frame, text="Update",state='', command=self.refresh_disk_info)
-        self.update_button.pack(side=tk.LEFT, padx=5, pady=10 , )
+        # Refresh button
+        self.refresh_button = ttk.Button(self.button_frame, text="Refresh", command=self.refresh)
+        self.refresh_button.pack(side=tk.TOP, padx=5, pady=10)
 
         # Only Read button
-        self.update_button = ttk.Button(self.frame, text="Only Read", command=self.Read_Only)
-        self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
+        self.read_button = ttk.Button(self.button_frame, text="Only Read", command=self.Read_Only)
+        self.read_button.pack(side=tk.TOP, padx=5, pady=10)
 
         # Read/Write button
-        self.update_button = ttk.Button(self.frame, text="Read/Write", command=self.Read_Write)
-        self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
+        self.read_write_button = ttk.Button(self.button_frame, text="Read/Write", command=self.Read_Write)
+        self.read_write_button.pack(side=tk.TOP, padx=5, pady=10)
 
         # Format Disk button
-        self.update_button = ttk.Button(self.frame, text="Format", command=self.Format_Disk)
-        self.update_button.pack(side=tk.LEFT, padx=5, pady=10)
+        self.format_button = ttk.Button(self.button_frame, text="Format", command=self.Format_Disk)
+        self.format_button.pack(side=tk.TOP, padx=5, pady=10)
 
         # Eject Disk button
-        self.exit_button = ttk.Button(self.frame, text="Eject Disk", command=self.Eject_Disk)
-        self.exit_button.pack(side=tk.LEFT, padx=5, pady=10)
+        self.eject_button = ttk.Button(self.button_frame, text="Eject Disk", command=self.Eject_Disk)
+        self.eject_button.pack(side=tk.TOP, padx=5, pady=10)
 
         # Exit button
-        self.exit_button = ttk.Button(self.frame, text="Exit", command=self.root.destroy)
-        self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
+        self.exit_button = ttk.Button(self.button_frame, text="Exit", command=self.root.destroy)
+        self.exit_button.pack(side=tk.BOTTOM, padx=5, pady=10)
 
         # Reset button
-        self.exit_button = ttk.Button(self.frame, text="Reset", command=self.Reset)
-        self.exit_button.pack(side=tk.RIGHT, padx=5, pady=10)
-
-        # Refresh disk info on startup
-        # self.refresh_disk_info()
-        # self.Eject_Disk()
-        # self.Format_Disk()
+        self.reset_button = ttk.Button(self.button_frame, text="Reset", command=self.reset)
+        self.reset_button.pack(side=tk.BOTTOM, padx=5, pady=10)
 
         self.root.mainloop()
 
-    def refresh_disk_info(self):
+    def refresh(self):
+        # Refresh disk info checkboxes
+        for checkbox in self.disk_checkboxes:
+            checkbox.destroy()
+        self.disk_checkboxes.clear()
         disk_info = self.disk_info.refresh_disk_info()
-        for List_Disk in disk_info:
-            # print(List_Disk)
-            count = len(List_Disk)
-            # print ('len : ' , count)
-            counter = 0
-            while counter < count:
-                counter = counter + 1
-                # print(len(disk_info))
-                # print (counter , List_Disk)
-                self.disk_info_label.config(text=f'{str(List_Disk)}')
-        
+        for disk in disk_info:
+            checkbox = ttk.Checkbutton(self.disk_checkboxes_frame, text=disk, variable=tk.BooleanVar())
+            checkbox.pack(anchor=tk.W, fill=tk.BOTH, expand=True)
+            self.disk_checkboxes.append(checkbox)
+
     def Eject_Disk(self):
-        Eject = self.Eject.Eject_Disk()
+        self.disk_info.Eject_Disk()
     
     def Format_Disk(self):
-        Format = self.Format.Format_Disk()
+        self.disk_info.Format_Disk()
 
     def Read_Only(self):
-        Read = self.Read.Read_Only()
+        self.disk_info.Read_Only()
 
     def Read_Write(self):
-        Write = self.Write.Read_Write()
-    
-    def Reset(self):
+        self.disk_info.Read_Write()
+
+    def reset(self):
         self.root.destroy()
         DiskUI()
-        print("app is restarted")
 
 if __name__ == '__main__':
     DiskUI()
-
