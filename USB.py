@@ -1,6 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
-from ttkthemes import ThemedStyle
 import wmi
 class Disk:
     def refresh_disk_info(self):

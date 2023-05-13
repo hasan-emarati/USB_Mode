@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
 from ttkthemes import ThemedStyle
 import wmi
 from USB import Disk
-
-
 class DiskUI:
     def __init__(self):
         self.root = tk.Tk()
@@ -13,8 +12,12 @@ class DiskUI:
         self.style.set_theme("equilux")
         self.frame = ttk.Frame(self.root, padding=10)
         self.frame.pack(fill=tk.BOTH, expand=True)
-        self.root.minsize(400, 200)
-        self.root.maxsize(800, 500)
+        self.root.minsize(800, 200)
+        self.root.maxsize(1400, 500)
+
+        # Change font size of text
+        default_font = font.nametofont("TkDefaultFont")
+        default_font.configure(size=12)
 
         # Create an instance of Disk class
         self.disk_info = Disk()
@@ -49,13 +52,13 @@ class DiskUI:
         self.eject_button = ttk.Button(self.button_frame, text="Eject Disk", command=lambda: self.perform_action("Eject_Disk"))
         self.eject_button.pack(side=tk.TOP, padx=5, pady=10)
 
-        # Reset button
-        self.reset_button = ttk.Button(self.button_frame, text="Reset", command=self.reset)
-        self.reset_button.pack(side=tk.BOTTOM, padx=5, pady=10)
-
         # Exit button
         self.exit_button = ttk.Button(self.button_frame, text="Exit", command=self.root.destroy)
         self.exit_button.pack(side=tk.BOTTOM, padx=5, pady=10)
+
+        # Reset button
+        self.reset_button = ttk.Button(self.button_frame, text="Reset", command=self.reset)
+        self.reset_button.pack(side=tk.BOTTOM, padx=5, pady=10)
 
         self.root.mainloop()
 
@@ -100,7 +103,6 @@ class DiskUI:
     def reset(self):
         self.root.destroy()
         DiskUI()
-
 
 if __name__ == '__main__':
     DiskUI()
