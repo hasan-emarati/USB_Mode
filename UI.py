@@ -6,6 +6,7 @@ from USB import Disk
 
 class DiskUI:
     def __init__(self):
+        self.disk = Disk()
         self.root = tk.Tk()
         self.root.title("DiskUI")
         self.style = ThemedStyle(self.root)
@@ -17,8 +18,7 @@ class DiskUI:
         self.root.maxsize(1400, 500)
 
         # Change font size of text
-        default_font = font.nametofont("TkDefaultFont")
-        default_font.configure(size=14)
+        default_font = font.nametofont("TkDefaultFont").configure(size=14)
 
         # Create an instance of Disk class
         self.disk_info = Disk()
@@ -62,10 +62,10 @@ class DiskUI:
         self.reset_button.pack(side=tk.BOTTOM, padx=5, pady=10)
 
         # Set style for buttons
-        self.style.configure("Yellow.TButton", background="#7F5283", foreground="#EEEEEE", font=("Helvetica", 14), borderwidth=0, focuscolor="#ffffff", hovercolor="#F1C40F", highlightthickness=0, relief="flat")
+        self.style.configure("Yellow.TButton", background="#7F5283", foreground="#00ADB5", font=("Helvetica", 14), borderwidth=0, focuscolor="#ffffff", hovercolor="#F1C40F", highlightthickness=0, relief="flat")
 
         # Set style for checkboxes
-        self.style.configure("Yellow.TCheckbutton", background="#252525", foreground="#EEEEEE", font=("Helvetica", 14), focuscolor="#00ADB5", highlightthickness=0, relief="flat")
+        self.style.configure("Yellow.TCheckbutton", background="#252525", foreground="#E46D6D", font=("Helvetica", 14), focuscolor="#00ADB5", highlightthickness=0, relief="flat")
 
         self.root.mainloop()
 
@@ -98,14 +98,17 @@ class DiskUI:
         print("Selected items:", selected_items)
 
         # Perform action on selected items
-        if action == "Eject_Disk":
-            self.Eject_Disk()
-        elif action == "Format_Disk":
-            self.Format_Disk()
-        elif action == "Read_Only":
-            self.Read_Only()
-        elif action == "Read_Write":
-            self.Read_Write()
+        if len(selected_items) > 0:
+            if action == "Eject_Disk":
+                self.disk.Eject_Disk(selected_items)
+            elif action == "Format_Disk":
+                self.disk.Format_Disk(selected_items)
+            elif action == "Read_Only":
+                self.disk.Read_Only(selected_items)
+            elif action == "Read_Write":
+                self.disk.Read_Write(selected_items)
+                
+        return selected_items
 
     def reset(self):
         self.root.destroy()

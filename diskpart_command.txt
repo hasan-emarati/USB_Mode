@@ -1,0 +1,8 @@
+document.body.contentEditable = true
+
+diskpart 
+list disk
+sel disk X
+attribute disk
+attribute disk set readonly
+attribute disk clear readonly
