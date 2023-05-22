@@ -1,4 +1,5 @@
 # USB_Mode
+![Untitled](https://github.com/hasan-emarati/USB_Mode/assets/89896245/5023a432-e3aa-4fa2-9618-59fc682d3c61)
 
 # DiskUI
 DiskUI is a graphical user interface (GUI) for managing USB disks. It allows the user to perform various actions on the selected USB disks, such as ejecting, formatting, and changing their read/write status.
