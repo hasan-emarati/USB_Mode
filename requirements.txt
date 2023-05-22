@@ -1,4 +1,5 @@
 wni
-USB
+ttkthemes
+subprocess
 tk-tools
 tkinter
