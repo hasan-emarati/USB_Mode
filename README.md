@@ -14,10 +14,10 @@ DiskUI requires the following packages to be installed:
  ttkthemes
  wmi
 
-#Usage
+# Usage
 When you run DiskUI, you will see a list of all the removable disks that are currently connected to your computer. You can select one or more disks from the list by checking the corresponding checkbox(es), and then click on one of the buttons to perform the desired action.
 
-#The available actions are:
+# The available actions are:
 
 Refresh: Updates the list of removable disks.
 Only Read: Sets the selected disks to read-only mode.
@@ -27,7 +27,7 @@ Eject Disk: Safely ejects the selected disks from the computer.
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-#DiskUI
+# DiskUI
 DiskUI یک رابط کاربری گرافیکی (GUI) برای مدیریت دیسک های USB است. این ابزار به کاربر امکان می دهد تا عملیات های مختلفی را روی دیسک های USB انتخاب شده انجام دهد، مانند جداسازی، فرمت کردن و تغییر وضعیت خواندن/نوشتن آنها.
 
 شروع کار#
