@@ -1,12 +1,12 @@
 # USB_Mode
 
-#DiskUI
+# DiskUI
 DiskUI is a graphical user interface (GUI) for managing USB disks. It allows the user to perform various actions on the selected USB disks, such as ejecting, formatting, and changing their read/write status.
 
-#Getting Started
+# Getting Started
 To use DiskUI, simply run the DiskUI.py file. This will open the DiskUI window, where you can select the USB disks you want to manage and perform the desired action.
 
-#Prerequisites
+# Prerequisites
 DiskUI requires the following packages to be installed:
 
  tkinter
