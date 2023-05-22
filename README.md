@@ -9,10 +9,10 @@ To use DiskUI, simply run the DiskUI.py file. This will open the DiskUI window, 
 # Prerequisites
 DiskUI requires the following packages to be installed:
 
- tkinter
- ttk
- ttkthemes
- wmi
+- tkinter
+- ttk
+- ttkthemes
+- wmi
 
 # Usage
 When you run DiskUI, you will see a list of all the removable disks that are currently connected to your computer. You can select one or more disks from the list by checking the corresponding checkbox(es), and then click on one of the buttons to perform the desired action.
