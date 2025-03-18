@@ -89,7 +89,7 @@ class DiskUI:
             text=text,
             command=command,
             style="Rounded.TButton",
-            width=10 if text != "Exit" else 5,  # تنظیم عرض دکمه Exit
+            width=10 if text != "Exit" else 5,  # Exit Button 
         )
         button.pack(side=tk.LEFT, padx=5, pady=5, expand=True)
 
@@ -127,38 +127,36 @@ class DiskUI:
                 actions[action](selected_items)
 
     def open_format_window(self):
-        """باز کردن پنجره جدید برای فرمت."""
         format_window = tk.Toplevel(self.root)
         format_window.title("Format Options")
-        format_window.geometry("400x450")  # تغییر اندازه پنجره به 400x450
+        format_window.geometry("250x410")  # Format Frame
         format_window.resizable(False, False)
 
-        # تنظیم تم پنجره فرمت
         format_window.configure(bg="#363636")
         format_frame = ttk.Frame(format_window, padding=15)
         format_frame.pack(fill=tk.BOTH, expand=True)
 
         # Select USB Drive
         usb_label = ttk.Label(format_frame, text="Select USB Drive:", background="#363636", foreground="#00ADB5")
-        usb_label.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        usb_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
         self.usb_var = tk.StringVar()
-        usb_options = [disk.cget("text").split(" - ")[0] for disk in self.disk_checkboxes]  # فقط درایو و نام دیسک
-        usb_menu = ttk.Combobox(format_frame, textvariable=self.usb_var, values=usb_options, state="readonly", width=30)  # افزایش عرض Combobox
-        usb_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        usb_options = [disk.cget("text").split(" - ")[0] for disk in self.disk_checkboxes] 
+        usb_menu = ttk.Combobox(format_frame, textvariable=self.usb_var, values=usb_options, state="readonly", width=30)  
+        usb_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  
 
         # Volume Label
         volume_label = ttk.Label(format_frame, text="Volume Label:", background="#363636", foreground="#00ADB5")
-        volume_label.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        volume_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
         self.volume_entry = ttk.Entry(format_frame, width=30)
-        self.volume_entry.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        self.volume_entry.pack(anchor=tk.W, pady=5, fill=tk.X)
 
         # File System
         file_system_label = ttk.Label(format_frame, text="File System:", background="#363636", foreground="#00ADB5")
-        file_system_label.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        file_system_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
         self.file_system_var = tk.StringVar(value="FAT32")
         file_system_options = ["FAT32", "NTFS", "exFAT"]
         file_system_menu = ttk.Combobox(format_frame, textvariable=self.file_system_var, values=file_system_options, state="readonly")
-        file_system_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        file_system_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  
 
         # Quick Format
         self.quick_format_var = tk.BooleanVar(value=True)
@@ -168,9 +166,9 @@ class DiskUI:
             variable=self.quick_format_var,
             style="Yellow.TCheckbutton",
         )
-        quick_format_check.pack(anchor=tk.W, pady=5, fill=tk.X)  # پر کردن عرض
+        quick_format_check.pack(anchor=tk.W, pady=5, fill=tk.X) 
 
-        # دکمه‌های Format و Close کنار هم
+        # Close and format  Button
         button_frame = ttk.Frame(format_frame)
         button_frame.pack(fill=tk.X, pady=10)
 
@@ -194,8 +192,8 @@ class DiskUI:
         )
         close_button.pack(side=tk.LEFT, padx=5, expand=True)
 
-        # نوار وضعیت (Status Bar)
-        self.status_var = tk.StringVar(value="Ready")  # متن پیش‌فرض نوار وضعیت
+        # Status Bar
+        self.status_var = tk.StringVar(value="Ready")  
         status_bar = ttk.Label(format_frame, textvariable=self.status_var, style="Status.TLabel")
         status_bar.pack(side=tk.BOTTOM, fill=tk.X, pady=5)
 

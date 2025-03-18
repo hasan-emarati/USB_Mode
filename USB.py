@@ -18,7 +18,7 @@ class Disk:
             item = items[:2]
             Command =f'(New-Object -comObject Shell.Application).Namespace(17).ParseName("{item}").InvokeVerb("Eject")'
             try:
-                # اجرای دستور PowerShell با subprocess
+                # Power Shell Commands
                 result = subprocess.run(
                     ["powershell", "-Command", Command],
                     capture_output=True,
@@ -26,7 +26,7 @@ class Disk:
                     shell=True
                 )
 
-                # چاپ خروجی و خطاها
+                # Output 
                 if result.stdout:
                     print("Output:", result.stdout)
                 if result.stderr:
@@ -65,7 +65,6 @@ class Disk:
             if stdout:
                 print("Output:", stderr)
         except Exception as e:
-            # مدیریت سایر خطاها
             print(f"An unexpected error occurred: {str(e)}")
 
         
