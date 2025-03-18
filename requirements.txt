@@ -3,3 +3,4 @@ ttkthemes
 subprocess
 tk-tools
 tkinter
+Notify

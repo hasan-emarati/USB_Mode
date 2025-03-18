@@ -8,3 +8,24 @@ attribute disk set readonly
 attribute disk clear readonly
 
 
+echo list disk | diskpart
+echo list volume | diskpart
+echo list volume | sel volume X | diskpart
+
+(echo list volume) | diskpart
+
+(echo list volume & echo select volume 1 & echo list volume) | diskpart
+
+(echo list volume & echo select volume 1 & echo list volume & echo attributes volume) | diskpart
+
+(echo list volume & echo select volume 1 & echo list volume & echo attributes volume & echo attribute volume set readonly) | diskpart
+
+(echo list volume & echo select volume 1 & echo list volume & echo attributes volume & echo attribute volume clear readonly) | diskpart
+
+attributes volume
+
+attribute volume set readonly
+
+attribute volume clear readonly
+
+list volume
