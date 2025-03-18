@@ -1,5 +1,6 @@
 import wmi
 import subprocess
+from notifypy import Notify
 
 class Disk:
     def refresh_disk_info(self):
@@ -13,16 +14,60 @@ class Disk:
         return disk_info
     
     def Eject_Disk(self, selected_items):
-        for item in selected_items:
-            eject_cmd = f'rundll32.exe shell32.dll,Control_RunDLL hotplug.dll,{item[:2]}'
-            subprocess.run(eject_cmd)
-            print(f"[{item[:2]}] is Ejecting")
+        for items in selected_items:
+            item = items[:2]
+            Command =f'(New-Object -comObject Shell.Application).Namespace(17).ParseName("{item}").InvokeVerb("Eject")'
+            try:
+                # اجرای دستور PowerShell با subprocess
+                result = subprocess.run(
+                    ["powershell", "-Command", Command],
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+
+                # چاپ خروجی و خطاها
+                if result.stdout:
+                    print("Output:", result.stdout)
+                if result.stderr:
+                    print("Error:", result.stderr)
+
+                print(f"Drive {item} ejected successfully.")
+                
+                notification = Notify()
+                notification.title = "Disk Safe to Eject"
+                notification.message = "Eject successfully"
+                notification.send() 
+    
+            except Exception as e:
+                print(f"An error occurred: {e}")
         
-    def Format_Disk(self , selected_items):
-        for item in selected_items:
-            Format_Disk = f'format {item[:2]} /FS:FAT32 /Q /V:MyUSB'
-            subprocess.run(f"{Format_Disk}\n" , shell=True)
-            print(f"[{item[:2]}] is Formatting")
+
+    def Format_Disk(self, selected_items, SysFormat, Lable):
+        drive = selected_items[:2]
+        # print(drive)
+        format_command = f'format {drive} /FS:{SysFormat} /Q /V:{Lable}'
+
+        try:
+            result = process = subprocess.Popen(
+            format_command,
+            stdin=subprocess.PIPE,  
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True,
+            text=True
+        )
+            process.stdin.write("\n") 
+            process.stdin.flush()
+            stdout, stderr = process.communicate()
+            if stdout:
+                print("Output:", stdout)
+            if stdout:
+                print("Output:", stderr)
+        except Exception as e:
+            # مدیریت سایر خطاها
+            print(f"An unexpected error occurred: {str(e)}")
+
         
     def Read_Only(self , selected_items):
         for item in selected_items:
