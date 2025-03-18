@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --icon=key-lock.png --name=USB-Mode .\UI.py
