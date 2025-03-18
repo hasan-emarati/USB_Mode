@@ -18,9 +18,9 @@ echo list volume | sel volume X | diskpart
 
 (echo list volume & echo select volume 1 & echo list volume & echo attributes volume) | diskpart
 
-(echo list volume & echo select volume 1 & echo list volume & echo attributes volume & echo attribute volume set readonly) | diskpart
+(echo list volume & echo select volume H & echo list volume & echo attributes volume & echo attribute volume set readonly) | diskpart
 
-(echo list volume & echo select volume 1 & echo list volume & echo attributes volume & echo attribute volume clear readonly) | diskpart
+(echo list volume & echo select volume H & echo list volume & echo attributes volume & echo attribute volume clear readonly) | diskpart
 
 attributes volume
 
