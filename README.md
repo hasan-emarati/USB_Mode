@@ -1,5 +1,10 @@
 # USB_Mode
+V6.2
 ![Untitled](https://github.com/hasan-emarati/USB_Mode/assets/89896245/5023a432-e3aa-4fa2-9618-59fc682d3c61)
+
+V6.3
+![image](https://github.com/user-attachments/assets/dbdb193a-1f92-4f11-8ee8-e3768eeb062a)
+
 
 # DiskUI
 DiskUI is a graphical user interface (GUI) for managing USB disks. It allows the user to perform various actions on the selected USB disks, such as ejecting, formatting, and changing their read/write status.
@@ -14,6 +19,10 @@ DiskUI requires the following packages to be installed:
 - ttk
 - ttkthemes
 - wmi
+- customtkinter==0.3
+- subprocess
+- Notify
+
 
 # Usage
 When you run DiskUI, you will see a list of all the removable disks that are currently connected to your computer. You can select one or more disks from the list by checking the corresponding checkbox(es), and then click on one of the buttons to perform the desired action.
