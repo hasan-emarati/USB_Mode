@@ -20,6 +20,10 @@ echo list volume | sel volume X | diskpart
 
 (echo list volume & echo select volume H & echo list volume & echo attributes volume & echo attribute volume set readonly) | diskpart
 
+(echo list volume & echo select volume H & echo detail volume & echo attributes volume & echo attribute volume set readonly) | diskpart
+
+(echo select volume H & echo detail volume & echo list disk & echo attribute volume set readonly) | diskpart
+
 (echo list volume & echo select volume H & echo list volume & echo attributes volume & echo attribute volume clear readonly) | diskpart
 
 attributes volume

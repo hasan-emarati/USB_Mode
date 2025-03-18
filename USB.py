@@ -69,23 +69,23 @@ class Disk:
 
         
     def Read_Only(self , selected_items):
-        for item in selected_items:
-            c = wmi.WMI()
-            drive_letter = f"{item[:1]}"
-            print(drive_letter)
-            for logical_disk in c.Win32_LogicalDisk(DriveType=2):
-                if logical_disk.Caption.startswith(drive_letter):
-                    logical_disk.Attributes |= 2
-                    logical_disk.Put()
-                print(f"[{item[:2]}] is Read-Only mode")
+        for items in selected_items:
+            item = items[:1]
+            # print(item)
+            command1 = f"(echo select volume {item} & echo detail volume & echo list disk & echo attribute disk set readonly) | diskpart"
+        process = subprocess.Popen(command1, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True)
+        print(process)
+        stdout, stderr = process.communicate(command1)
+        print("stdout:", stdout)
+        print("stderr:", stderr) 
         
     def Read_Write(self , selected_items):
-        for item in selected_items:
-            c = wmi.WMI()
-            drive_letter = f"{item[:1]}"
-            for logical_disk in c.Win32_LogicalDisk(DriveType=2):
-                if logical_disk.Caption.startswith(drive_letter):
-                    logical_disk.Attributes &= ~2
-                    logical_disk.Put()
-
-        print(f"[{item[:2]}] Read/Write")
+        for items in selected_items:
+            item = items[:1]
+            # print(item)
+            command1 = f"(echo select volume {item} & echo detail volume & echo list disk & echo attribute disk clear readonly) | diskpart"
+        process = subprocess.Popen(command1, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True)
+        print(process)
+        stdout, stderr = process.communicate(command1)
+        print("stdout:", stdout)
+        print("stderr:", stderr)
