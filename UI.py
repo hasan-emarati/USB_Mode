@@ -1,81 +1,36 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter import font
-from ttkthemes import ThemedStyle
+import customtkinter as ctk
 from USB import Disk
 
 
 class DiskUI:
     def __init__(self):
         self.disk = Disk()  
-        self.root = tk.Tk()
+        self.root = ctk.CTk() 
         self.root.title("DiskUI")
-        self.style = ThemedStyle(self.root)
-        self.style.theme_use("equilux")
-        self.configure_styles()  
+        self.root.geometry("800x330")  
         self.setup_ui()  
         self.root.mainloop()
 
-    def configure_styles(self):
-        self.style.configure("TFrame", background="#363636") # App background
-        self.style.configure(    # Buttons Tab 
-            "Rounded.TButton",
-            background="#7F5283",
-            foreground="#00ADB5",
-            font=("Helvetica", 12),
-            borderwidth=0,
-            padding=5,
-            bordercolor="#7F5283",
-            lightcolor="#7F5283",
-            darkcolor="#7F5283",
-            borderradius=20,
-        )
-        self.style.map(
-            "Rounded.TButton",
-            background=[("active", "#0C75EE")],  # Hover background
-            foreground=[("active", "#00F7FF")],  # Hover Text Color
-        )
-        self.style.configure(
-            "Yellow.TCheckbutton",
-            background="#252525",
-            foreground="#E46D6D",
-            font=("Helvetica", 12),
-            focuscolor="#00ADB5",
-            highlightthickness=0,
-            relief="flat",
-        )
-        self.style.configure(
-            "Status.TLabel",
-            background="#252525",
-            foreground="#00ADB5",
-            font=("Helvetica", 10),
-            padding=5,
-        )
-
     def setup_ui(self):
-        self.root.minsize(800, 300)
-        self.root.maxsize(1400, 500)
+        ctk.set_appearance_mode("dark")
 
-        # Font Size
-        font.nametofont("TkDefaultFont").configure(size=12)
-        self.frame = ttk.Frame(self.root, padding=15)
-        self.frame.pack(fill=tk.BOTH, expand=True)
+        self.frame = ctk.CTkFrame(self.root)
+        self.frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
 
-        # CheckBox Frame
-        self.disk_checkboxes_frame = ttk.Frame(self.frame)
-        self.disk_checkboxes_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self.disk_checkboxes = []
+        self.disk_radiobuttons_frame = ctk.CTkScrollableFrame(self.frame)
+        self.disk_radiobuttons_frame.pack(fill=ctk.BOTH, expand=True, pady=10)
+        self.disk_radiobuttons = []
+        self.selected_disk = ctk.StringVar()  # متغیر برای رادیو باکس‌ها
         self.refresh()
 
-        # Key Frame
-        self.button_frame = ttk.Frame(self.frame)
-        self.button_frame.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
-        # creating buttons
+        self.button_frame = ctk.CTkFrame(self.frame)
+        self.button_frame.pack(fill=ctk.X, pady=10)
+
         buttons = [
             ("Refresh", self.refresh),
             ("Only Read", lambda: self.perform_action("Read_Only")),
             ("Read/Write", lambda: self.perform_action("Read_Write")),
-            ("Format", self.open_format_window),  # تغییر به تابع جدید
+            ("Format", self.open_format_window),
             ("Eject Disk", lambda: self.perform_action("Eject_Disk")),
             ("Reset", self.reset),
             ("Exit", self.root.destroy),
@@ -84,39 +39,36 @@ class DiskUI:
             self.create_button(text, command)
 
     def create_button(self, text, command):
-        button = ttk.Button(
+        button = ctk.CTkButton(
             self.button_frame,
             text=text,
             command=command,
-            style="Rounded.TButton",
-            width=10 if text != "Exit" else 5,  # Exit Button 
+            width=100 if text != "Exit" else 80,  
+            corner_radius=10, 
         )
-        button.pack(side=tk.LEFT, padx=5, pady=5, expand=True)
+        button.pack(side=ctk.LEFT, padx=5, pady=5, expand=True)
 
     def refresh(self):
-        for checkbox in self.disk_checkboxes:
-            checkbox.destroy()
-        self.disk_checkboxes.clear()
+        for radiobutton in self.disk_radiobuttons:
+            radiobutton.destroy()
+        self.disk_radiobuttons.clear()
         disk_info = self.disk.refresh_disk_info()  
         for disk in disk_info:
-            checkbox = ttk.Checkbutton(
-                self.disk_checkboxes_frame,
+            radiobutton = ctk.CTkRadioButton(
+                self.disk_radiobuttons_frame,
                 text=disk,
-                variable=tk.BooleanVar(),
-                style="Yellow.TCheckbutton",
+                variable=self.selected_disk,
+                value=disk, 
+                corner_radius=10, 
             )
-            checkbox.pack(anchor=tk.W, fill=tk.BOTH, expand=True)
-            self.disk_checkboxes.append(checkbox)
+            radiobutton.pack(anchor=ctk.W, fill=ctk.BOTH, pady=5)
+            self.disk_radiobuttons.append(radiobutton)
 
     def perform_action(self, action):
-        selected_items = [
-            checkbox.cget("text")
-            for checkbox in self.disk_checkboxes
-            if checkbox.instate(['selected'])
-        ]
-        print("Selected items:", selected_items)
+        selected_item = self.selected_disk.get()  
+        print("Selected item:", selected_item)
 
-        if selected_items:
+        if selected_item:
             actions = {
                 "Eject_Disk": self.disk.Eject_Disk,  
                 "Format_Disk": self.disk.Format_Disk,
@@ -124,95 +76,81 @@ class DiskUI:
                 "Read_Write": self.disk.Read_Write,  
             }
             if action in actions:
-                actions[action](selected_items)
+                actions[action]([selected_item])  
 
     def open_format_window(self):
-        format_window = tk.Toplevel(self.root)
+        format_window = ctk.CTkToplevel(self.root)
         format_window.title("Format Options")
-        format_window.geometry("250x410")  # Format Frame
+        format_window.geometry("250x380")  
         format_window.resizable(False, False)
 
-        format_window.configure(bg="#363636")
-        format_frame = ttk.Frame(format_window, padding=15)
-        format_frame.pack(fill=tk.BOTH, expand=True)
+        format_frame = ctk.CTkFrame(format_window)
+        format_frame.pack(fill=ctk.BOTH, expand=True, padx=20, pady=20)
 
-        # Select USB Drive
-        usb_label = ttk.Label(format_frame, text="Select USB Drive:", background="#363636", foreground="#00ADB5")
-        usb_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
-        self.usb_var = tk.StringVar()
-        usb_options = [disk.cget("text").split(" - ")[0] for disk in self.disk_checkboxes] 
-        usb_menu = ttk.Combobox(format_frame, textvariable=self.usb_var, values=usb_options, state="readonly", width=30)  
-        usb_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  
+        usb_label = ctk.CTkLabel(format_frame, text="Select USB Drive:")
+        usb_label.pack(anchor=ctk.W, pady=5)  
+        self.usb_var = ctk.StringVar()
+        usb_options = [disk.cget("text").split(" - ")[0] for disk in self.disk_radiobuttons] 
+        usb_menu = ctk.CTkComboBox(format_frame, variable=self.usb_var, values=usb_options)
+        usb_menu.pack(anchor=ctk.W, pady=5, fill=ctk.X)  
 
-        # Volume Label
-        volume_label = ttk.Label(format_frame, text="Volume Label:", background="#363636", foreground="#00ADB5")
-        volume_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
-        self.volume_entry = ttk.Entry(format_frame, width=30)
-        self.volume_entry.pack(anchor=tk.W, pady=5, fill=tk.X)
+        volume_label = ctk.CTkLabel(format_frame, text="Volume Label:")
+        volume_label.pack(anchor=ctk.W, pady=5)  
+        self.volume_entry = ctk.CTkEntry(format_frame)
+        self.volume_entry.pack(anchor=ctk.W, pady=5, fill=ctk.X)
 
-        # File System
-        file_system_label = ttk.Label(format_frame, text="File System:", background="#363636", foreground="#00ADB5")
-        file_system_label.pack(anchor=tk.W, pady=5, fill=tk.X)  
-        self.file_system_var = tk.StringVar(value="FAT32")
+        file_system_label = ctk.CTkLabel(format_frame, text="File System:")
+        file_system_label.pack(anchor=ctk.W, pady=5)  
+        self.file_system_var = ctk.StringVar(value="FAT32")
         file_system_options = ["FAT32", "NTFS", "exFAT"]
-        file_system_menu = ttk.Combobox(format_frame, textvariable=self.file_system_var, values=file_system_options, state="readonly")
-        file_system_menu.pack(anchor=tk.W, pady=5, fill=tk.X)  
+        file_system_menu = ctk.CTkComboBox(format_frame, variable=self.file_system_var, values=file_system_options)
+        file_system_menu.pack(anchor=ctk.W, pady=5, fill=ctk.X)  
 
-        # Quick Format
-        self.quick_format_var = tk.BooleanVar(value=True)
-        quick_format_check = ttk.Checkbutton(
+        self.quick_format_var = ctk.BooleanVar(value=True)
+        quick_format_check = ctk.CTkCheckBox(
             format_frame,
             text="Quick Format",
             variable=self.quick_format_var,
-            style="Yellow.TCheckbutton",
         )
-        quick_format_check.pack(anchor=tk.W, pady=5, fill=tk.X) 
+        quick_format_check.pack(anchor=ctk.W, pady=5) 
 
-        # Close and format  Button
-        button_frame = ttk.Frame(format_frame)
-        button_frame.pack(fill=tk.X, pady=10)
+        button_frame = ctk.CTkFrame(format_frame)
+        button_frame.pack(fill=ctk.X, pady=10)
 
-        # Start Button
-        start_button = ttk.Button(
+        start_button = ctk.CTkButton(
             button_frame,
             text="Format",
             command=self.start_format,
-            style="Rounded.TButton",
-            width=10,
+            width=100,
+            corner_radius=10,
         )
-        start_button.pack(side=tk.LEFT, padx=5, expand=True)
+        start_button.pack(side=ctk.LEFT, padx=5, expand=True)
 
-        # Close Button
-        close_button = ttk.Button(
+        close_button = ctk.CTkButton(
             button_frame,
             text="Close",
             command=format_window.destroy,
-            style="Rounded.TButton",
-            width=10,
+            width=100,
+            corner_radius=10,
         )
-        close_button.pack(side=tk.LEFT, padx=5, expand=True)
+        close_button.pack(side=ctk.LEFT, padx=5, expand=True)
 
-        # Status Bar
-        self.status_var = tk.StringVar(value="Ready")  
-        status_bar = ttk.Label(format_frame, textvariable=self.status_var, style="Status.TLabel")
-        status_bar.pack(side=tk.BOTTOM, fill=tk.X, pady=5)
+        self.status_var = ctk.StringVar(value="Ready")  
+        status_bar = ctk.CTkLabel(format_frame, textvariable=self.status_var)
+        status_bar.pack(side=ctk.BOTTOM, fill=ctk.X, pady=5)
 
     def start_format(self):
-        # print("s")
         selected_usb = self.usb_var.get() 
         volume_label = self.volume_entry.get()
         file_system = self.file_system_var.get()
         quick_format = self.quick_format_var.get()
 
-        
         self.status_var.set("Formatting... Please wait.")
         try:
-            # print("s")
-            self.disk.Format_Disk(selected_usb,file_system,volume_label)
+            self.disk.Format_Disk(selected_usb, file_system, volume_label)
             self.root.after(3000, lambda: self.status_var.set("Format completed successfully!"))
         except Exception as e:
             self.status_var.set(f"Error: {str(e)}")
-           
 
     def reset(self):
         self.root.destroy()
